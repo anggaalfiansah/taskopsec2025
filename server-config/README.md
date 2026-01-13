@@ -16,7 +16,7 @@ Proyek ini merupakan implementasi infrastruktur server berbasis Docker yang menc
 
 ## 📂 Struktur Folder
 ```text
-sevima-sysadmin-task/
+server-config/
 ├── config/
 │   ├── apache/        # Konfigurasi VirtualHost & Port Apache
 │   ├── haproxy/       # Konfigurasi Load Balancer HAProxy
@@ -27,6 +27,7 @@ sevima-sysadmin-task/
 │   ├── setup_ca.sh         # Script pembentuk SSL CA
 │   ├── setup_users.sh      # Script pembuatan 1300 user & Ulimit
 │   └── validate_internal.sh # Script pengujian otomatis
+├── manage_sevima.bat       # Client-side Automation (Windows)
 ├── Dockerfile              # Definisi lingkungan Ubuntu 22.04
 └── docker-compose.yml      # Orchestrasi container & volume mapping
 ```
