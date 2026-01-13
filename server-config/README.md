@@ -36,7 +36,7 @@ server-config/
 
 1. **Clone Repository**:
 ```bash
-git clone [https://github.com/anggaalfiansah/taskopsec2025.git](https://github.com/anggaalfiansah/taskopsec2025.git)
+git clone https://github.com/anggaalfiansah/taskopsec2025.git
 cd server-config
 
 ```
