@@ -75,7 +75,7 @@ Implementasi *Infrastructure as Code* (IaC) untuk mengelola layanan web yang kom
 
 ### 1. Jalankan Infrastruktur
 
-Pastikan Docker terinstal, lalu jalankan perintah berikut di root folder:
+Pastikan Docker terinstal, lalu jalankan perintah berikut di folder `server-config`:
 
 ```bash
 docker-compose up -d --build
