@@ -1,0 +1,39 @@
+# ==============================================================================
+# CONFIG NAME: sshd_config
+# DESCRIPTION: Konfigurasi SSH Daemon untuk Akses Administratif
+# TASK       : SEVIMA Sysadmin Task - Soal A.1 & A.2
+# AUTHOR     : Angga Alfiansah
+# ==============================================================================
+
+# --- KONFIGURASI JARINGAN (Soal A.2) ---
+# Mengubah port standar 22 menjadi 2025 sesuai instruksi pengerjaan.
+Port 2025
+AddressFamily any
+ListenAddress 0.0.0.0
+
+# --- AUTENTIKASI (Soal A.1) ---
+# Mengaktifkan autentikasi berbasis Public Key.
+# Script setup_users.sh akan mendistribusikan key ke authorized_keys.
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2
+
+# Mengaktifkan autentikasi berbasis Password sesuai kebutuhan soal.
+PasswordAuthentication yes
+PermitEmptyPasswords no
+
+# Memberikan izin akses Root untuk kebutuhan manajemen container.
+PermitRootLogin yes
+
+# --- SISTEM & LOGGING ---
+# Menggunakan PAM (Pluggable Authentication Modules) untuk manajemen sesi.
+UsePAM yes
+
+# Menonaktifkan MOTD (Message of the Day) untuk tampilan login yang lebih bersih.
+PrintMotd no
+
+# Logging standar untuk monitoring akses
+SyslogFacility AUTH
+LogLevel INFO
+
+# Pembatasan waktu login (timeout)
+LoginGraceTime 2m

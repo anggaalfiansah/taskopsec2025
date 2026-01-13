@@ -1,0 +1,55 @@
+# ==============================================================================
+# FILENAME: docker-compose.yml
+# DESCRIPTION: Orchestrasi layanan Sevima Task 2 (SSH, Web Server, & Load Balancer)
+# TASK       : SEVIMA Sysadmin Task - Orchestration Layer
+# AUTHOR     : Angga Alfiansah
+# ==============================================================================
+
+services:
+  sevima-server:
+    # Menggunakan Dockerfile di direktori saat ini untuk proses build
+    build: .
+    container_name: sevima-task2-ubuntu
+    hostname: sevima-server
+    restart: unless-stopped
+
+    # --- KONFIGURASI RESOURCE LIMITS (Soal A.4) ---
+    # Memastikan container memiliki batas file terbuka yang tinggi untuk performa
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+    # --- PEMETAAN PORT (EXPOSURE) ---
+    # Format: "HOST:CONTAINER"
+    ports:
+      - "2025:2025"  # Akses SSH Administrasi
+      - "8069:8069"  # Backend Utara (Apache)
+      - "8169:8169"  # Backend Timur (Nginx)
+      - "4435:4435"  # Backend Barat (Nginx HTTPS)
+      - "80:80"      # Frontend HAProxy Load Balancer
+
+    # --- MANAJEMEN VOLUME (Konfigurasi Eksternal) ---
+    # Memetakan file konfigurasi lokal ke dalam container dengan mode Read-Only (:ro)
+    volumes:
+      # SSH Configuration
+      - ./config/ssh/sshd_config:/etc/ssh/sshd_config:ro
+      
+      # Apache Configuration (Utara)
+      - ./config/apache/ports.conf:/etc/apache2/ports.conf:ro
+      - ./config/apache/utara.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+      
+      # Nginx Configuration (Timur & Barat)
+      - ./config/nginx/timur.conf:/etc/nginx/sites-enabled/timur:ro
+      - ./config/nginx/barat.conf:/etc/nginx/sites-enabled/barat:ro
+      
+      # HAProxy Configuration (Load Balancer)
+      - ./config/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg:ro
+
+    # --- LOGGING DOCKER ---
+    # Mengatur rotasi log agar tidak memenuhi ruang penyimpanan host
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
